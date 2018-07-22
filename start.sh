@@ -227,7 +227,6 @@ if [ -x /usr/local/bin/elk-post-hooks.sh ]; then
   . /usr/local/bin/elk-post-hooks.sh
 fi
 
-
 touch $OUTPUT_LOGFILES
 tail -f $OUTPUT_LOGFILES &
 wait

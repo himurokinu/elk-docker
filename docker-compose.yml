@@ -12,3 +12,5 @@ elk:
     - "5601:5601"
     - "9200:9200"
     - "5044:5044"
+  volumes:
+    - /Volumes/Macintosh HD2/Users2/tmp/2018-07-20/host:/opt/tmp

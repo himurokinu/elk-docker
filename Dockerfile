@@ -8,9 +8,9 @@
 # docker run -p 5601:5601 -p 9200:9200 -p 5044:5044 -it --name elk <repo-user>/elk
 
 FROM phusion/baseimage
-MAINTAINER Sebastien Pujadas http://pujadas.net
+# MAINTAINER Sebastien Pujadas http://pujadas.net
 ENV REFRESHED_AT 2017-02-28
-
+ENV TZ Asia/Tokyo 
 
 ###############################################################################
 #                                INSTALLATION
@@ -119,6 +119,7 @@ RUN sed -i -e 's#^KIBANA_HOME=$#KIBANA_HOME='$KIBANA_HOME'#' /etc/init.d/kibana 
 
 ADD ./elasticsearch.yml ${ES_PATH_CONF}/elasticsearch.yml
 ADD ./elasticsearch-default /etc/default/elasticsearch
+ADD ./japanese_template.json ${ES_PATH_CONF}/template
 RUN cp ${ES_HOME}/config/log4j2.properties ${ES_HOME}/config/jvm.options \
     ${ES_PATH_CONF} \
  && chown -R elasticsearch:elasticsearch ${ES_PATH_CONF} \
@@ -169,4 +170,8 @@ RUN chmod +x /usr/local/bin/start.sh
 EXPOSE 5601 9200 9300 5044
 VOLUME /var/lib/elasticsearch
 
-CMD [ "/usr/local/bin/start.sh" ]
+CMD [ "/usr/local/bin/start.sh"]
+
+ADD ./plugin-install.sh /usr/local/bin/plugin-install.sh
+RUN chmod +x /usr/local/bin/plugin-install.sh
+RUN sh -c /usr/local/bin/plugin-install.sh
